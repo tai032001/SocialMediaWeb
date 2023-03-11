@@ -35,3 +35,20 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+//Mongoose
+
+const PORT = process.env.PORT || 5001;
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server Port ${PORT} connected`);
+    });
+  })
+  .catch((error) => {
+    console.log(`${PORT} did not connect`);
+  });
