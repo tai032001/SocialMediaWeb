@@ -18,7 +18,7 @@ const postSchema = mongoose.Schema(
     description: String,
     picturePath: String,
     userPicturePath: String,
-    like: {
+    likes: {
       type: Map,
       of: Boolean,
     },
@@ -30,5 +30,5 @@ const postSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Post = mongoose("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 export default Post;
