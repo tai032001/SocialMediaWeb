@@ -58,8 +58,19 @@ function Form() {
   const isRegister = pageType === "Register";
 
   const login = async (values, onSubmitProps) => {
-    const loginUser = await axios.post("//localhost:5000/auth/login", values);
+    console.log(values.password, values.email);
+    const userLogin = {
+      password: values.password,
+      email: values.email,
+    };
+    const loginUser = await axios.post(
+      "//localhost:5000/auth/login",
+      userLogin
+    );
+
     const loggedIn = loginUser.data;
+    console.log(loggedIn);
+
     onSubmitProps.resetForm();
     if (loggedIn) {
       dispatch(
