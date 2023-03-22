@@ -31,6 +31,7 @@ const UserWidget = ({ userId, picturePath }) => {
   };
   useEffect(() => {
     getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!user) {
@@ -112,10 +113,15 @@ const UserWidget = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem" mb="0.5rem">
           <FlexBetween gap="1rem">
-            <img src="../assets/twitter.png" alt="twitter" />
+            <img
+              // width={"50px"}
+              // height={"50px"}
+              src="../assets/facebook.jpg"
+              alt="twitter"
+            />
             <Box>
               <Typography color={main} fontWeight="500">
-                Twitter
+                Facebook
               </Typography>
               <Typography color={medium}>Social Network</Typography>
             </Box>
@@ -123,7 +129,7 @@ const UserWidget = ({ userId, picturePath }) => {
           <ModeEditOutlineOutlinedIcon sx={{ color: main }} />
         </FlexBetween>
 
-        <FlexBetween gap="1rem">
+        {/* <FlexBetween gap="1rem">
           <FlexBetween gap="1rem">
             <img src="../assets/linkedin.png" alt="linkedin" />
             <Box>
@@ -132,9 +138,9 @@ const UserWidget = ({ userId, picturePath }) => {
               </Typography>
               <Typography color={medium}>Network Platform</Typography>
             </Box>
-          </FlexBetween>
-          <ModeEditOutlineOutlinedIcon sx={{ color: main }} />
-        </FlexBetween>
+          </FlexBetween> */}
+        {/* <ModeEditOutlineOutlinedIcon sx={{ color: main }} />
+        </FlexBetween> */}
       </Box>
     </WidgetWrapper>
   );
