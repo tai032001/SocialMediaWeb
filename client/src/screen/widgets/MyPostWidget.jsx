@@ -1,11 +1,12 @@
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
-import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined";
-import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
-import MicOutlinedIcon from "@mui/icons-material/MicOutlined";
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-
+import {
+  EditOutlined,
+  DeleteOutlined,
+  AttachFileOutlined,
+  GifBoxOutlined,
+  ImageOutlined,
+  MicOutlined,
+  MoreHorizOutlined,
+} from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -19,11 +20,10 @@ import {
 import FlexBetween from "components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "components/UserImage";
+import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
-import axios from "axios";
-import WidgetWrapper from "components/WidgetWrapper";
 
 const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
@@ -32,24 +32,29 @@ const MyPostWidget = ({ picturePath }) => {
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
+  const userPicturePath = useSelector((state) => state.user.picturePath);
   const token = useSelector((state) => state.token);
-  const isNonMobileScreen = useMediaQuery("(min-width:1000px)");
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
-  const medium = palette.neutral.main;
+  const medium = palette.neutral.medium;
 
   const handlePost = async () => {
     const formData = new FormData();
     formData.append("userId", _id);
     formData.append("description", post);
+    formData.append("userPicturePath", userPicturePath);
     if (image) {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
-    const res = await axios.post("//localhost:5000/posts", formData, {
+
+    const response = await fetch(`http://localhost:5000/post`, {
+      method: "POST",
       headers: { Authorization: `Bearer ${token}` },
+      body: formData,
     });
-    console.log(res.data);
-    dispatch(setPosts(res.data));
+    const posts = await response.json();
+    dispatch(setPosts({ posts }));
     setImage(null);
     setPost("");
   };
@@ -97,7 +102,7 @@ const MyPostWidget = ({ picturePath }) => {
                   ) : (
                     <FlexBetween>
                       <Typography>{image.name}</Typography>
-                      <EditOutlinedIcon />
+                      <EditOutlined />
                     </FlexBetween>
                   )}
                 </Box>
@@ -106,7 +111,7 @@ const MyPostWidget = ({ picturePath }) => {
                     onClick={() => setImage(null)}
                     sx={{ width: "15%" }}
                   >
-                    <DeleteOutlinedIcon />
+                    <DeleteOutlined />
                   </IconButton>
                 )}
               </FlexBetween>
@@ -119,7 +124,7 @@ const MyPostWidget = ({ picturePath }) => {
 
       <FlexBetween>
         <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
-          <ImageOutlinedIcon sx={{ color: mediumMain }} />
+          <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
             sx={{ "&:hover": { cursor: "pointer", color: medium } }}
@@ -128,26 +133,26 @@ const MyPostWidget = ({ picturePath }) => {
           </Typography>
         </FlexBetween>
 
-        {isNonMobileScreen ? (
+        {isNonMobileScreens ? (
           <>
             <FlexBetween gap="0.25rem">
-              <GifBoxOutlinedIcon sx={{ color: mediumMain }} />
+              <GifBoxOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Clip</Typography>
             </FlexBetween>
 
             <FlexBetween gap="0.25rem">
-              <AttachFileOutlinedIcon sx={{ color: mediumMain }} />
+              <AttachFileOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Attachment</Typography>
             </FlexBetween>
 
             <FlexBetween gap="0.25rem">
-              <MicOutlinedIcon sx={{ color: mediumMain }} />
+              <MicOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Audio</Typography>
             </FlexBetween>
           </>
         ) : (
           <FlexBetween gap="0.25rem">
-            <MoreHorizOutlinedIcon sx={{ color: mediumMain }} />
+            <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
         )}
 
