@@ -4,6 +4,8 @@ import NavBar from "screen/navbar";
 import UserWidget from "screen/widgets/UserWidget";
 import MyPostWidget from "screen/widgets/MyPostWidget";
 import PostsWidget from "screen/widgets/PostsWidget";
+import AdvertWidget from "screen/widgets/AdvertWidget";
+import ListFriend from "screen/widgets/ListFriend";
 const HomePage = () => {
   const isNonMobileScreen = useMediaQuery("(min-width:1000px)");
   const { _id, picturePath } = useSelector((state) => state.user);
@@ -29,7 +31,9 @@ const HomePage = () => {
         </Box>
         {isNonMobileScreen && (
           <Box flexBasis={"26%"}>
-            <Box></Box>
+            <AdvertWidget />
+            <Box m={"2rem 0"} />
+            <ListFriend userId={_id} />
           </Box>
         )}
       </Box>
